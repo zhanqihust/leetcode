@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int maxProfit(vector<int> &prices) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        if (prices.size() == 0)
+            return 0;
+        int cnt = prices[0];
+        vector<int> ans1, ans2(prices.size(),0);
+        int ans = 0;
+        int max_val = 0;
+        for (int i = 0; i < prices.size(); i++) {
+            ans1.push_back(max(prices[i] - cnt,max_val));
+            max_val = ans1.back(),max_val;
+            cnt = min(prices[i], cnt);
+        }
+        cnt = prices[prices.size() - 1];
+        max_val = 0;
+        for (int i = prices.size() - 1; i >= 0; i--) {
+            ans2[i] = max(cnt - prices[i],max_val);
+            max_val = ans2[i];
+            cnt = max(cnt, prices[i]);
+        }
+        ans = 0;
+        for (int i = 0; i < prices.size(); i++)
+            ans = max(ans, ans1[i] + ans2[i]);
+        return ans;
+    }
+};
