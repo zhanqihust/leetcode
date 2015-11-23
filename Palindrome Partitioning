@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<vector<string>> ans;
+    vector<vector<string>> partition(string s) {
+        vector<string> temp(0);
+        handle(temp,s,0);
+        return ans;
+    }
+    void handle(vector<string> v, string s, int i){
+        if(i == s.size()){
+            ans.push_back(v);
+            return;
+        } 
+        for (int j = i; j < s.size(); j++){
+            if(palindrome(s,i,j)){
+                v.push_back(s.substr(i,j-i+1));
+                handle(v,s,j+1);
+                v.pop_back();
+            }
+        }
+    }
+    bool palindrome(string s, int i, int j){
+        while (i < j){
+            if(s[i++]!=s[j--]) return false;
+        }
+        return true;
+    }
+};
