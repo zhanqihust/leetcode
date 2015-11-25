@@ -1,0 +1,45 @@
+class Solution {
+    TreeNode *pre;
+public:
+    void flatten(TreeNode* root) {
+        if (root == NULL) return;
+        pre = root;
+        TreeNode* r = root->right;
+        if (root->left){
+            root->right = root->left;
+            flatten(root->right);
+            root->left = NULL;
+        }
+        pre->right = r;
+        flatten(r);
+    }
+};
+
+/* iterative solution
+
+class Solution {
+public:
+    void flatten(TreeNode* root) {
+        stack<TreeNode*> s;
+        if(root) s.push(root);
+        TreeNode* p,* temp = NULL;
+        while(!s.empty()){
+            p = s.top();
+            s.pop();
+            if (temp){
+                temp->right = p;
+                temp->left = NULL;
+                temp = p;
+            }
+            while(p->left){
+                if (p->right) s.push(p->right);
+                temp = p->left;
+                p->left = NULL;
+                p->right = temp;
+                p = temp;
+                
+            }
+            if (p->right) s.push(p->right);
+        }
+    }
+};
