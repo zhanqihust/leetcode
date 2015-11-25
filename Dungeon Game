@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int calculateMinimumHP(vector<vector<int>>& dungeon) {
+        if (dungeon.size()==0||dungeon[0].size()==0) return 0;
+        dungeon[dungeon.size()-1][dungeon[0].size()-1] = 1 - dungeon[dungeon.size()-1][dungeon[0].size()-1];
+        for (int i = dungeon.size()-1; i >= 0; i--)
+            for(int j = dungeon[0].size()-1; j >=0; j--){
+                if (i == dungeon.size()-1 && j ==dungeon[0].size()-1) continue;
+                int min_HP;
+                if (i+1 < dungeon.size() && j + 1 < dungeon[0].size()){
+                    min_HP = min(dungeon[i+1][j]-dungeon[i][j],dungeon[i][j+1]-dungeon[i][j]);
+                }else if(i+1 >= dungeon.size()){
+                    min_HP = dungeon[i][j+1]-dungeon[i][j];
+                }else if(j+1 >= dungeon[0].size()){
+                    min_HP = dungeon[i+1][j]-dungeon[i][j];
+                }
+                dungeon[i][j] = max(1-dungeon[i][j],min_HP);
+            }
+            return dungeon[0][0] <= 1? 1:dungeon[0][0];
+    }
+};
