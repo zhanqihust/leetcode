@@ -1,0 +1,49 @@
+class Solution {
+public:
+    void connect(TreeLinkNode *root) {
+        // IMPORTANT: Please reset any member data you declared, as
+        // the same Solution instance will be reused for each test case.
+        if(root == NULL || root->left == NULL)
+            return;
+        root->left->next = root->right;
+        if(root->next != NULL)
+            root->right->next = root->next->left;
+        connect(root->left);
+        connect(root->right);
+    }
+};
+
+
+
+class Solution {
+public:
+    void connect(TreeLinkNode *root) {
+        queue<TreeLinkNode *> q;
+        if (root) q.push(root);
+        TreeLinkNode * p,* pre;
+        int k = 1,i=1;
+        while(!q.empty()){
+            p = q.front();
+            q.pop();
+            if (p->left) q.push(p->left);
+            if (p->right) q.push(p->right);
+            if(i == 1){
+                if (k == 1){
+                  k = k*2;
+                  continue;
+                } 
+                pre = p;
+                i++;
+            }else if(i == k){
+                pre->next = p;
+                p->next = NULL;
+                i = 1;
+                k = k*2;
+            }else{
+                pre->next = p;
+                pre = p;
+                i++;
+            }
+        }
+    }
+};
