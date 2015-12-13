@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int findMin(vector<int>& nums) {
+        int L = 0, R = nums.size() - 1, M;
+        if (R < 0) return -1;
+        while (L < R) {
+            M = (R + L) / 2;
+            if (nums[M] == nums[R]){
+                R--;
+            }else if (nums[M] > nums[R] )
+                L = M + 1;
+            else
+                R = M;
+        }
+        return nums[L];
+    }
+};
