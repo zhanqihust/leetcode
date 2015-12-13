@@ -2,6 +2,27 @@ class Solution {
 public:
     int findMin(vector<int>& nums) {
         int left = 0, right = nums.size()-1, mid = right/2;
+        while(left < right){
+            mid = left + (right-left)/2;
+            if (nums[left] > nums[right]){
+                if(nums[left] <= nums[mid]){
+                    left = mid + 1;
+                }else{
+                    right = mid;
+                }
+            }else{
+                break;
+            }
+        }
+        return nums[left];
+    }
+};
+
+
+class Solution {
+public:
+    int findMin(vector<int>& nums) {
+        int left = 0, right = nums.size()-1, mid = right/2;
         if (nums.size()==1) return nums[0];
         if (nums.size()==2) return min(nums[0],nums[1]);
         if (nums[0] < nums.back()) return nums[0];
@@ -15,6 +36,5 @@ public:
             }
             mid = (left+right)/2;
         }
-        
     }
 };
