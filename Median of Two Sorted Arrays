@@ -1,0 +1,26 @@
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        int n = nums1.size() + nums2.size();
+        if ( n%2 != 0){
+            return Kthnum(nums1,nums2,0,0,n/2);
+        }else{
+            return (Kthnum(nums1,nums2,0,0,n/2-1)+Kthnum(nums1,nums2,0,0,n/2))/2.0;
+        }
+    }
+    int Kthnum(vector<int>& nums1, vector<int>& nums2,int left1, int left2, int k){
+        if (left1 >= nums1.size()) return nums2[left2+k];
+        if (left2 >= nums2.size()) return nums1[left1+k];
+        if (k == 0) return min(nums1[left1],nums2[left2]);
+        if (nums1.size() > nums2.size()) return Kthnum(nums2,nums1,left2,left1,k);
+        int a = nums1.size()-1-left1,b;
+        a = min(a,k/2), b = k - a - 1;
+        if(nums1[left1 + a] < nums2[left2 + b]){
+            return Kthnum(nums1,nums2,left1+a+1,left2,k-a-1);
+        }else if (nums1[left1+a] == nums2[left2+b]){
+            return nums1[left1+a];
+        }else{
+            return Kthnum(nums1,nums2,left1,left2+b+1,k-b-1);
+        }
+    }
+};
